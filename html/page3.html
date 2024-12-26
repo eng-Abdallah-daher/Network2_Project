@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARP Table</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="topnav">
+        <a href="page1.html" class="active">System Group</a>
+        <a href="page2.html" class="active">TCP Table</a>
+        <a href="page3.html" class="active">ARP Table</a>
+        <a href="page4.html" class="active">SNMP Group Statistics</a>
+    </div>
+
+    <h2 style="text-align: center;">ARP Table</h2>
+
+    <table id="inf">
+        <thead>
+            <tr>
+                <th>MediaIfIndex</th>
+                <th>MediaPhysAddress</th>
+                <th>MediaNetAddress</th>
+                <th>MediaType</th>
+            </tr>
+        </thead>
+        <tbody id="arpTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var rows = this.responseText.split('\n');
+                var tableBody = document.getElementById("arpTableBody");
+                for (var i = 0; i < rows.length - 1; i++) {
+                    var columns = rows[i].split(',');
+                    var row = tableBody.insertRow(i);
+                    for (var j = 0; j < columns.length; j++) {
+                        var cell = row.insertCell(j);
+                        cell.innerHTML = columns[j];
+                    }
+                }
+            }
+        };
+        xhttp.open("GET", "../php/page3.php", true);
+        xhttp.send();
+    </script>
+</body>
+</html>
